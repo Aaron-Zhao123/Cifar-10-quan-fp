@@ -15,6 +15,7 @@ retrain = 0
 parent_dir = './'
 base_model = 'base.pkl'
 quantisation_bits = [2,4,8,16,32,64]
+quantisation_bits = [2]
 pcov = [0,0]
 for q_width in quantisation_bits:
     # measure acc
@@ -33,7 +34,7 @@ for q_width in quantisation_bits:
         ('-parent_dir', parent_dir),
         ('-base_model', base_model)
         ]
-    # _ = fixed_point_training.main(param)
+    _ = fixed_point_training.main(param)
 
     param = [
         ('-t', 0),
