@@ -53,24 +53,27 @@ def initialize_variables(exist, parent_dir, q_bits , pretrain):
     NUM_CHANNELS = 3
     IMAGE_SIZE = 32
     NUM_CLASSES = 10
-    file_name = parent_dir + 'weights/'+ 'base.pkl'
+    if (pretrain):
+        file_name = parent_dir + 'weights/'+ 'base.pkl'
+    else:
+        file_name = parent_dir + 'weights/'+ 'weight'+ q_bits +'.pkl'
     if (exist == 1):
-        with open(file_name, 'rb') as f:
-            (weights_val, biases_val) = pickle.load(f)
-        weights = {
-            'cov1': tf.Variable(weights_val['cov1']),
-            'cov2': tf.Variable(weights_val['cov2']),
-            'fc1': tf.Variable(weights_val['fc1']),
-            'fc2': tf.Variable(weights_val['fc2']),
-            'fc3': tf.Variable(weights_val['fc3'])
-        }
-        biases = {
-            'cov1': tf.Variable(biases_val['cov1']),
-            'cov2': tf.Variable(biases_val['cov2']),
-            'fc1': tf.Variable(biases_val['fc1']),
-            'fc2': tf.Variable(biases_val['fc2']),
-            'fc3': tf.Variable(biases_val['fc3'])
-        }
+            with open(file_name, 'rb') as f:
+                (weights_val, biases_val) = pickle.load(f)
+            weights = {
+                'cov1': tf.Variable(weights_val['cov1']),
+                'cov2': tf.Variable(weights_val['cov2']),
+                'fc1': tf.Variable(weights_val['fc1']),
+                'fc2': tf.Variable(weights_val['fc2']),
+                'fc3': tf.Variable(weights_val['fc3'])
+            }
+            biases = {
+                'cov1': tf.Variable(biases_val['cov1']),
+                'cov2': tf.Variable(biases_val['cov2']),
+                'fc1': tf.Variable(biases_val['fc1']),
+                'fc2': tf.Variable(biases_val['fc2']),
+                'fc3': tf.Variable(biases_val['fc3'])
+            }
     return (weights, biases)
 
 
