@@ -56,7 +56,7 @@ def initialize_variables(exist, parent_dir, q_bits , pretrain):
     if (pretrain):
         file_name = parent_dir + 'weights/'+ 'base.pkl'
     else:
-        file_name = parent_dir + 'weights/'+ 'weight'+ str(q_bits) +'.pkl'
+        file_name = parent_dir + 'weights/'+ 'weights'+ str(q_bits) +'.pkl'
     if (exist == 1):
             with open(file_name, 'rb') as f:
                 (weights_val, biases_val) = pickle.load(f)
