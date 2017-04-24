@@ -456,15 +456,16 @@ def main(argv = None):
             print('pre train pruning info')
             prune_info(weights, 0)
             print(78*'-')
-            print('start save these pre trained weights')
-            keys = ['cov1','cov2','fc1','fc2','fc3']
-            weights_save = {}
-            biases_save = {}
-            for key in keys:
-                weights_save[key] = weights[key].eval()
-                biases_save[key] = biases[key].eval()
-            with open(parent_dir + 'weights/'+ 'weights'+str(q_bits)+'.pkl','wb') as f:
-                pickle.dump((weights_save, biases_save),f)
+            if (TRAIN):
+                print('start save these pre trained weights')
+                keys = ['cov1','cov2','fc1','fc2','fc3']
+                weights_save = {}
+                biases_save = {}
+                for key in keys:
+                    weights_save[key] = weights[key].eval()
+                    biases_save[key] = biases[key].eval()
+                with open(parent_dir + 'weights/'+ 'weightspt'+str(q_bits)+'.pkl','wb') as f:
+                    pickle.dump((weights_save, biases_save),f)
 
             start = time.time()
             if TRAIN == 1:
