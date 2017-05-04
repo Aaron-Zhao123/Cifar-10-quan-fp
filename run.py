@@ -34,7 +34,7 @@ for q_width in quantisation_bits:
         ('-parent_dir', parent_dir),
         ('-base_model', base_model)
         ]
-    _ = fixed_point_training.main(param)
+    # _ = fixed_point_training.main(param)
 
     param = [
         ('-t', 0),
