@@ -331,7 +331,7 @@ def ClipIfNotNone(grad):
     return tf.clip_by_value(grad, -1, 1)
 
 def compute_weights_nbits(weights, biases, frac_bits):
-    keys = ['cov1','cov2','fc1','fc2']
+    keys = ['cov1','cov2','fc1','fc2','fc3']
     # two defualt bits: 1 bit sign, 1 bit integer
     # 4 bit. 1 bit sign, 1 bit integer, 2 bits fractional 00(0)-11(0.5+0.25)
     interval = 0.5 / float(frac_bits)
