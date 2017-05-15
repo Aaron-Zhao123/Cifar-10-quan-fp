@@ -472,7 +472,7 @@ def main(argv = None):
 
             start = time.time()
             if TRAIN == 1:
-                for i in range(0,20000):
+                for i in range(0,40000):
                     (batch_x, batch_y) = t_data.feed_next_batch(BATCH_SIZE)
                     train_acc, cross_en = sess.run([accuracy, loss_value], feed_dict = {
                                     x: batch_x,
