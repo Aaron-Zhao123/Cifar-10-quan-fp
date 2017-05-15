@@ -410,13 +410,15 @@ def main(argv = None):
 
         keep_prob = tf.placeholder(tf.float32)
         images = pre_process(x, TRAIN_OR_TEST)
+        images_test = pre_process(x, 0)
         # images = pre_process(x, 1)
         pred = cov_network(images, weights, biases, keep_prob)
+        pred_test = cov_network(images_test, weights, biases, keep_prob)
         # print(pred)
         cross_entropy = tf.nn.softmax_cross_entropy_with_logits(logits = pred, labels = y)
         loss_value = tf.reduce_mean(cross_entropy)
 
-        correct_prediction = tf.equal(tf.argmax(pred,1), tf.argmax(y,1))
+        correct_prediction = tf.equal(tf.argmax(pred_test,1), tf.argmax(y,1))
         accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 
         global_step = tf.contrib.framework.get_or_create_global_step()
@@ -425,13 +427,14 @@ def main(argv = None):
         decay_steps = int(num_batches_per_epoch * NUM_EPOCHS_PER_DECAY)
 
         # Decay the learning rate exponentially based on the number of steps.
-        lr = tf.train.exponential_decay(INITIAL_LEARNING_RATE,
-                                      global_step,
-                                      decay_steps,
-                                      LEARNING_RATE_DECAY_FACTOR,
-                                      staircase=True)
-
-        opt = tf.train.GradientDescentOptimizer(lr)
+        # lr = tf.train.exponential_decay(INITIAL_LEARNING_RATE,
+        #                               global_step,
+        #                               decay_steps,
+        #                               LEARNING_RATE_DECAY_FACTOR,
+        #                               staircase=True)
+        #
+        # opt = tf.train.GradientDescentOptimizer(lr)
+        opt = tf.train.AdamOptimizer(1e-4)
         grads = opt.compute_gradients(loss_value)
         org_grads = [(ClipIfNotNone(grad), var) for grad, var in grads]
         new_grads = mask_gradients(weights, org_grads, weights_mask, biases, biases_mask)
@@ -503,7 +506,15 @@ def main(argv = None):
                             accuracy_list = np.zeros(5)
 
                             print('test accuracy is {}'.format(test_acc))
-                            if (test_acc > 0.823):
+                            if (q_bits == 2):
+                                threshold = 0.8
+                            if (q_bits == 4):
+                                threshold = 0.8
+                            if (q_bits == 8):
+                                threshold = 0.81
+                            if (q_bits == 16):
+                                threshold = 0.82
+                            if (test_acc > threshold):
                                 print('Exiting the training, test accuracy is {}'.format(test_acc))
                                 print('start save these pre trained weights')
                                 keys = ['cov1','cov2','fc1','fc2','fc3']
