@@ -14,7 +14,8 @@ count = 0
 retrain = 0
 parent_dir = './'
 base_model = 'base.pkl'
-quantisation_bits = [2,4,8,16,32,64]
+# quantisation_bits = [2,4,8,16,32,64]
+quantisation_bits = [2,4,8,16]
 # quantisation_bits = [2]
 pcov = [0,0]
 for q_width in quantisation_bits:
