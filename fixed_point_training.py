@@ -53,6 +53,7 @@ def initialize_variables(exist, parent_dir, q_bits , pretrain):
     NUM_CHANNELS = 3
     IMAGE_SIZE = 32
     NUM_CLASSES = 10
+    TEST_RANGE = True 
     if (pretrain):
         file_name = parent_dir + 'weights/'+ 'base.pkl'
     else:
@@ -74,6 +75,18 @@ def initialize_variables(exist, parent_dir, q_bits , pretrain):
                 'fc2': tf.Variable(biases_val['fc2']),
                 'fc3': tf.Variable(biases_val['fc3'])
             }
+    if (TEST_RANGE):
+        print("RANGE TEST")
+        print(80*"-")
+        for key, value in weights_val.iteritems():
+            print("testing wegihts {}, max is {}, min is {}".format{key,
+                                                                    np.max(value),
+                                                                    np.min(value)})
+        for key, value in biases_val.iteritems():
+            print("testing wegihts {}, max is {}, min is {}".format{key,
+                                                                    np.max(value),
+                                                                    np.min(value)})
+        sys.exit()
     return (weights, biases)
 
 
