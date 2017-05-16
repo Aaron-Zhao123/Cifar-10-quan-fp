@@ -79,11 +79,13 @@ def initialize_variables(exist, parent_dir, q_bits , pretrain):
         print("RANGE TEST")
         print(80*"-")
         for key, value in weights_val.iteritems():
+            print('{} weights are above 1, {} weights are above 2'.format(np.sum(np.abs(value)>1),
+                                                                            np.sum(np.abs(value)>2)))
             print("testing wegihts {}, max is {}, min is {}".format(key,
                                                                     np.max(value),
                                                                     np.min(value)))
         for key, value in biases_val.iteritems():
-            print("testing wegihts {}, max is {}, min is {}".format(key,
+            print("testing biases {}, max is {}, min is {}".format(key,
                                                                     np.max(value),
                                                                     np.min(value)))
         sys.exit()
