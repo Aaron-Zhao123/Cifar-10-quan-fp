@@ -53,7 +53,7 @@ def initialize_variables(exist, parent_dir, q_bits , pretrain):
     NUM_CHANNELS = 3
     IMAGE_SIZE = 32
     NUM_CLASSES = 10
-    TEST_RANGE = True
+    TEST_RANGE = False
     if (pretrain):
         file_name = parent_dir + 'weights/'+ 'base.pkl'
     else:
@@ -353,6 +353,8 @@ def compute_weights_nbits(weights, biases, frac_bits):
     for key in keys:
         weights[key] = tf.floordiv(weights[key], interval) * interval
         biases[key] = tf.floordiv(biases[key], interval) * interval
+        weights[key] = tf.clip_by_value(weights[key], -1., 1.)
+        weights[key] = tf.clip_by_value(weights[key], -1., 1.)
     return (weights, biases)
 
 def main(argv = None):
@@ -521,13 +523,13 @@ def main(argv = None):
                             accuracy_list = np.zeros(5)
 
                             print('test accuracy is {}'.format(test_acc))
-                            if (q_bits == 2):
+                            if (q_bits == 1):
                                 threshold = 0.8
-                            if (q_bits == 4):
+                            if (q_bits == 3):
                                 threshold = 0.8
-                            if (q_bits == 8):
-                                threshold = 0.81
-                            if (q_bits >= 16):
+                            if (q_bits == 7):
+                                threshold = 0.82
+                            if (q_bits >= 15):
                                 threshold = 0.82
                             if (test_acc > threshold):
                                 print('Exiting the training, test accuracy is {}'.format(test_acc))
