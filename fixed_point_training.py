@@ -354,7 +354,7 @@ def compute_weights_nbits(weights, biases, frac_bits):
         weights[key] = tf.floordiv(weights[key], interval) * interval
         biases[key] = tf.floordiv(biases[key], interval) * interval
         weights[key] = tf.clip_by_value(weights[key], -1., 1.)
-        weights[key] = tf.clip_by_value(weights[key], -1., 1.)
+        biases[key] = tf.clip_by_value(biases[key], -1., 1.)
     return (weights, biases)
 
 def main(argv = None):
