@@ -438,10 +438,10 @@ def main(argv = None):
         correct_prediction = tf.equal(tf.argmax(pred_test,1), tf.argmax(y,1))
         accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 
-        global_step = tf.contrib.framework.get_or_create_global_step()
-
-        num_batches_per_epoch = NUM_EXAMPLES_PER_EPOCH_FOR_TRAIN / BATCH_SIZE
-        decay_steps = int(num_batches_per_epoch * NUM_EPOCHS_PER_DECAY)
+        # global_step = tf.contrib.framework.get_or_create_global_step()
+        #
+        # num_batches_per_epoch = NUM_EXAMPLES_PER_EPOCH_FOR_TRAIN / BATCH_SIZE
+        # decay_steps = int(num_batches_per_epoch * NUM_EPOCHS_PER_DECAY)
 
         # Decay the learning rate exponentially based on the number of steps.
         # lr = tf.train.exponential_decay(INITIAL_LEARNING_RATE,
@@ -451,13 +451,12 @@ def main(argv = None):
         #                               staircase=True)
         #
         # opt = tf.train.GradientDescentOptimizer(lr)
-        opt = tf.train.AdamOptimizer(1e-4)
-        grads = opt.compute_gradients(loss_value)
-        org_grads = [(ClipIfNotNone(grad), var) for grad, var in grads]
-        new_grads = mask_gradients(weights, org_grads, weights_mask, biases, biases_mask)
+        # grads = opt.compute_gradients(loss_value)
+        # org_grads = [(ClipIfNotNone(grad), var) for grad, var in grads]
+        # new_grads = mask_gradients(weights, org_grads, weights_mask, biases, biases_mask)
         # Apply gradients.
-        train_step = opt.apply_gradients(new_grads, global_step=global_step)
-        # train_step = tf.train.AdamOptimizer(1e-4).minimize(cross_entropy)
+        # train_step = opt.apply_gradients(org_grads, global_step=global_step)
+        train_step = tf.train.AdamOptimizer(1e-4).minimize(loss_value)
 
 
         init = tf.global_variables_initializer()
